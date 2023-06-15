@@ -1,0 +1,73 @@
+class CustomExceptionOne(BaseException):
+    pass
+
+class CustomExceptionTwo(BaseException):
+    pass
+
+class CustomExceptionThree(BaseException):
+    pass
+
+
+class Person:
+    def __init__(self, name, age):
+        if not isinstance(name, str):
+            raise TypeError("Имя должно быть строкой")
+        if not isinstance(age, int):
+            raise TypeError("Возраст должен быть целым числом")
+        if age < 0 or age > 150:
+            raise ValueError("Возраст должен быть в диапазоне от 0 до 150")
+        self.name = name
+        self.age = age
+    
+    def introduce(self):
+        if not isinstance(self.name, str) or not isinstance(self.age, int):
+            raise TypeError("Имя должно быть строкой, а возраст - целым числом")
+        if self.age < 0 or self.age > 150:
+            raise ValueError("Возраст должен быть в диапазоне от 0 до 150")
+        print(f"Привет, меня зовут {self.name} мне {self.age} лет.")
+    
+    def have_birthday(self):
+        if not isinstance(self.age, int):
+            raise TypeError("Возраст должен быть целым числом")
+        if self.age < 0 or self.age > 150:
+            raise ValueError("Возраст должен быть в диапазоне от 0 до 150")
+        self.age += 1
+
+
+try:
+    p1 = Person("John", "25")
+except TypeError as e:
+    print(f"Ошибка: {e}")
+    
+try:
+    p2 = Person("Mary", 200)
+except ValueError as e:
+    print(f"Ошибка: {e}")
+    
+p3 = Person("Bob", 30)
+
+try:
+    p3.introduce()
+    p3.have_birthday()
+    p3.introduce()
+    p3.name = 123
+    p3.introduce()
+except (TypeError, ValueError) as e:
+    print(f"Ошибка: {e}")
+except Exception as e:
+    print(f"Неожиданная ошибка: {e}")
+
+try:
+    raise CustomExceptionOne("Это пользовательское исключение номер один")
+except CustomExceptionOne as e:
+    print(f"Пользовательское исключение номер один: {e}")
+    
+try:
+    raise CustomExceptionTwo("Это пользовательское исключение номер два")
+except CustomExceptionTwo as e:
+    print(f"Пользовательское исключение номер два: {e}")
+    
+try:
+    raise CustomExceptionThree("Это пользовательское исключение номер три")
+except CustomExceptionThree as e:
+    print(f"Пользовательское исключение номер три: {e}")
